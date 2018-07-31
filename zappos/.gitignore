@@ -1,0 +1,4 @@
+*.ini
+.idea
+build/
+project.egg-info/
