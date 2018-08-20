@@ -21,6 +21,7 @@ class TigerCrawlSpider(CrawlSpider):
             item['brand'] = resp.xpath('.//a/div[@class="_2jktc"]/p[@class="_1HOLv"]/span/text()').extract_first()
             item['name'] = resp.xpath('.//a/div[@class="_2jktc"]/p[@class="_3BAWv"]/text()').extract_first()
             item['price'] = resp.xpath('.//a/div[@class="_2jktc"]/p[@class="_1J1ab"]/span/text()').extract_first()
+            item['photo_src'] = resp.xpath('.//a/meta[@itemprop="image"]/@content').extract_first()
             product_link = resp.xpath('.//a/@href').extract_first()
             # join with base url
             item['product_link'] = urljoin(response.url, product_link)

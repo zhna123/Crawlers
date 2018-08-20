@@ -13,4 +13,5 @@ class ShoeItem(scrapy.Item):
     brand = scrapy.Field()
     name = scrapy.Field()
     price = scrapy.Field()
+    photo_src = scrapy.Field()
     product_link = scrapy.Field()

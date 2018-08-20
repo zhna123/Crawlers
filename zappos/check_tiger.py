@@ -18,9 +18,44 @@ def read_results(result_file, recipient):
     process_results(shoes, recipient)
 
 
+def convert_to_html_str(list):
+    # construct brand header row
+    header_str = ''
+    for item in list:
+        header_str += '<tr>'
+        for key in item.keys():
+            header_str += '<th>'
+            header_str += key
+            header_str += '</th>'
+        header_str += '</tr>'
+        break
+
+    # construct content table rows
+    row_str = ''
+    for row_item in list:
+        row_str += '<tr>'
+        for (key, value) in row_item.items():
+            if key == 'photo_src':
+                row_str += '<img src="{}">'.format(value)
+            else:
+                row_str += '<td>'
+                row_str += value
+                row_str += '</td>'
+        row_str += '</tr>'
+
+    # construct table
+    table_str = '<table>'
+    table_str += header_str
+    table_str += row_str
+    table_str += '</table>'
+
+    return table_str
+
+
 def process_results(result_list, recipient):
     top_list = result_list[:5]
-    send_mail(top_list, "tiger shoes", recipient)
+    html_str = convert_to_html_str(top_list)
+    send_mail(html_str, "tiger shoes", recipient)
 
 
 # use gmail
@@ -33,13 +68,11 @@ def send_mail(message, title, recipient):
     user = parser['DEFAULT']['Username']
     password = parser['DEFAULT']['Password']
 
-    message_str = str(message)
-
     msg = MIMEMultipart()
     msg['From'] = user
     msg['To'] = recipient
     msg['Subject'] = title
-    msg.attach(MIMEText(message_str))
+    msg.attach(MIMEText(message, 'html'))
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
